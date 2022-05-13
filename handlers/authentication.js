@@ -59,3 +59,23 @@ export const getUser = async (req, res) => {
     }
 
 }
+
+export const getAllUsers = async (req, res) => {
+
+    try {
+        
+        const me = await User.findById(req.user._id)
+
+        if(me.isAdmin){
+            const user = await User.find()
+    
+            res.send(user)
+        } else {
+            res.json({ error: "You are not authorized to access all users" })
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}

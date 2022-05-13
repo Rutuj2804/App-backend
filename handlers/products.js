@@ -33,3 +33,35 @@ export const getProduct = async (req, res) => {
     }
 
 }
+
+export const getProductCategoryWise = async (req, res) => {
+
+    try {
+        
+        Product.find({ category: req.params.id})
+                .populate('category')
+                .exec((err, result)=>{
+                    res.send(result)
+                })
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const getFewProductCategoryWise = async (req, res) => {
+
+    try {
+        
+        Product.find({ category: req.params.id})
+                .populate('category')
+                .exec((err, result)=>{
+                    res.send(result.slice(0, 10))
+                })
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
