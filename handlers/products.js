@@ -50,6 +50,23 @@ export const getProductCategoryWise = async (req, res) => {
 
 }
 
+
+export const getAllProducts = async (req, res) => {
+
+    try {
+        
+        Product.find()
+                .populate('category')
+                .exec((err, result)=>{
+                    res.send(result)
+                })
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 export const getFewProductCategoryWise = async (req, res) => {
 
     try {

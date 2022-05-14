@@ -4,11 +4,31 @@ export const addToCart = async (req, res) => {
 
     try {
         
-        const newCartProduct = new Cart({ product: req.params.id, user: req.user })
+        const item = await Cart.find({ product:req.params.id, user: req.user })
 
-        await newCartProduct.save()
+        if(item.length){
+            res.send({ error: "Item already in cart" })
+        } else {
+            const newCartProduct = new Cart({ product: req.params.id, user: req.user })
+    
+            await newCartProduct.save()
+    
+            res.send(newCartProduct)
+        }
 
-        res.send(newCartProduct)
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const removeFromCart = async (req, res) => {
+
+    try {
+        
+        const item = await Cart.deleteMany({ product: req.params.id, user: req.user })
+
+        res.send(item)
 
     } catch (error) {
         console.log(error);

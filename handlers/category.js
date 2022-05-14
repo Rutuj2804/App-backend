@@ -31,3 +31,17 @@ export const getCategory = async (req, res) => {
     }
 
 }
+
+export const getCategories = async (req, res) => {
+    
+    try {
+
+        const newCategory = await Category.find()
+
+        res.send(newCategory)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
