@@ -17,7 +17,7 @@ export const addToCart = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -31,7 +31,7 @@ export const removeFromCart = async (req, res) => {
         res.send(item)
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -54,7 +54,7 @@ export const getCartItmes = async (req, res) => {
             })
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }

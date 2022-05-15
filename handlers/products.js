@@ -6,14 +6,20 @@ export const createProduct = async (req, res) => {
         
         const { name, description, category, price, discountedPrice, discountPercent } = req.body;
 
-        const newProduct = new Product({ name, description, image: req.file.filename, category, price, discountedPrice, discountPercent })
+        if(!name || !description || !category || !price || !discountedPrice || !discountPercent) {
+            res.send({ error: 'Each field is mandatory' })
+        } else {
 
-        await newProduct.save()
+            const newProduct = new Product({ name, description, image: req.file.filename, category, price, discountedPrice, discountPercent })
+    
+            await newProduct.save()
+    
+            res.send(newProduct)
+        }
 
-        res.send(newProduct)
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -29,7 +35,7 @@ export const getProduct = async (req, res) => {
                 })
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -45,7 +51,7 @@ export const getProductCategoryWise = async (req, res) => {
                 })
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }

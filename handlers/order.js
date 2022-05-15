@@ -7,16 +7,22 @@ export const placeOrder = async (req, res) => {
         
         const { products, address } = req.body
 
-        const newPlaceOrder = new Order({ products, address, user: req.user })
+        if(!products || !address) {
+            res.send({ error: 'Each Field is Necessary' })
+        } else {
 
-        await Cart.deleteMany({ user: req.user })
+            const newPlaceOrder = new Order({ products, address, user: req.user })
+    
+            await Cart.deleteMany({ user: req.user })
+    
+            await newPlaceOrder.save()
+    
+            res.send(newPlaceOrder)
+        }
 
-        await newPlaceOrder.save()
-
-        res.send(newPlaceOrder)
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -40,7 +46,7 @@ export const getOrders = async (req, res) => {
             })
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -63,7 +69,7 @@ export const getMyOrders = async (req, res) => {
             })
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }

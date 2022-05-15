@@ -6,6 +6,8 @@ export const createCategory = async (req, res) => {
         
         const { name } = req.body;
 
+        if(!name) res.send({ error: "Each Field is necesaary" })
+
         const newCategory = new Category({ name })
 
         await newCategory.save()
@@ -13,7 +15,7 @@ export const createCategory = async (req, res) => {
         res.send(newCategory)
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -27,7 +29,7 @@ export const getCategory = async (req, res) => {
         res.send(newCategory)
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
@@ -41,7 +43,7 @@ export const getCategories = async (req, res) => {
         res.send(newCategory)
 
     } catch (error) {
-        console.log(error);
+        res.status(400).send({error:error.message});
     }
 
 }
