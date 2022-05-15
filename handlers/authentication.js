@@ -29,13 +29,13 @@ export const loginUser = async (req, res) => {
         const { userName, password } = req.body;
         // validate
         if (!userName || !password)
-            return res.status(400).json({ msg: "Not all fields have been entered." });
+            return res.status(400).json({ error: "Not all fields have been entered." });
         const user = await User.findOne({ userName: userName });
         if (!user)
-            return res.status(400).json({ msg: "Invalid credentials." });
+            return res.status(400).json({ error: "Invalid credentials." });
         
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
+        if (!isMatch) return res.status(400).json({ error: "Invalid credentials." });
         const token = jwt.sign({ id: user }, process.env.JWT_SECRET);
         res.json({
             token,

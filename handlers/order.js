@@ -1,4 +1,5 @@
 import Order from "../models/Order";
+import Cart from "../models/Cart"
 
 export const placeOrder = async (req, res) => {
 
@@ -7,6 +8,8 @@ export const placeOrder = async (req, res) => {
         const { products, address } = req.body
 
         const newPlaceOrder = new Order({ products, address, user: req.user })
+
+        await Cart.deleteMany({ user: req.user })
 
         await newPlaceOrder.save()
 
